@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar {
+    background: #222;
+    color: white;
+    padding: 10px;
+}

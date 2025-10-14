@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список студентов</title>
+</head>
+<body>
+    <h1>Группа {{ group_info.name }}, специальность: {{ group_info.specialty }} ({{ group_info.year }})</h1>
+
+    <ol>
+        {% for student in students %}
+            <li>{{ student.name }} — {{ student.age }} лет — {{ student.group }}</li>
+        {% endfor %}
+    </ol>
+
+    <p><strong>Всего студентов:</strong> {{ students|length }}</p>
+</body>
+</html>

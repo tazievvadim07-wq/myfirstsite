@@ -15,3 +15,15 @@ def students_view(request):
     }
 
     return render(request, "main/students.html", context)
+
+def feedback(request):
+   result = None
+   if request.method == "POST":
+       name = request.POST.get("name")
+       message = request.POST.get("message")
+       if name== "" and message =="":
+           result = "Ошибка, все поля должны быть заполнены"
+       else:
+           result = f"Спасибо, {name}! Мы получили твоё сообщение: {message}"
+
+   return render(request, "main/form.html", {"result": result})

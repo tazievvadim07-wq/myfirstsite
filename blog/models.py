@@ -1,20 +1,18 @@
 from django.db import models
+class Author(models.Model):
+   name = models.CharField(max_length=50)
+   email = models.EmailField(unique=True)
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Название категории")
+   def __str__(self):
+       return self.name
+   
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
 
 class Article(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Заголовок")
-    content = models.TextField(verbose_name="Содержание")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
+   title = models.CharField(max_length=100)
+   content = models.TextField()
+   author = models.ForeignKey(Author, on_delete=models.CASCADE)
+   created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.title
+   def __str__(self):
+       return self.title

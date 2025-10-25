@@ -1,32 +1,36 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from .models import Article, Author, Tag, Book
-
-def index(request):
-    return HttpResponse("Это блог-раздел моего сайта")
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Book
+from .forms import BookForm
 
 def book_list(request):
-    books_expensive = Book.objects.filter(price__gt=2000)
-    books_recent = Book.objects.filter(year__gt=2010).order_by("year")
-    books_tolstoy = Book.objects.filter(author__icontains="Толстой")
+    books = Book.objects.all()
+    return render(request, 'blog/book_list.html', {'books': books})
 
-    context = {
-        "books_expensive": books_expensive,
-        "books_recent": books_recent,
-        "books_tolstoy": books_tolstoy,
-    }
-    return render(request, "blog/book_list.html", context)
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = BookForm()
+    return render(request, 'blog/book_form.html', {'form': form})
 
+def edit_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'blog/book_form.html', {'form': form})
 
-def search_view(request):
-    query = request.GET.get("q", "")  # получаем текст из формы
-    results = []
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book_list')
+    return render(request, 'blog/book_confirm_delete.html', {'book': book})
 
-    if query:
-        results = Book.objects.filter(author__icontains=query)
-
-    context = {
-        "query": query,
-        "results": results,
-    }
-    return render(request, "blog/search.html", context)

@@ -27,11 +27,11 @@ class Article(models.Model):
    
 
 class Book(models.Model):
-    title = models.CharField(max_length=100, verbose_name="Название книги")
-    author = models.CharField(max_length=100, verbose_name="Автор")
-    year = models.IntegerField(verbose_name="Год издания")
-    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Цена")
-    available = models.BooleanField(default=True, verbose_name="Доступно")
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    year = models.IntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.title} ({self.author})"
+        return self.title

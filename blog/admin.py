@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Article, Tag
+from .models import Author, Article, Tag, Book
 
 
 # 👇 Этот класс позволяет видеть статьи прямо в карточке автора
@@ -26,5 +26,9 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
 
-
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ("title", "author", "year", "price", "available")
+    list_filter = ("available", "year")
+    search_fields = ("title", "author")
 

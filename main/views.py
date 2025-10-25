@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from blog.models import Book
 
 def students_view(request):
     students = [
@@ -48,3 +49,21 @@ def article_detail_1(request, id):
        return HttpResponse(f"Статья: {article['title']}")
    else:
        return HttpResponse("Статья не найдена")
+   
+def home(request):   
+    return HttpResponse("Главная страница")
+
+
+
+def search_view(request):
+    query = request.GET.get('q')  # получаем введённый текст из формы
+    results = []
+
+    if query:
+        results = Book.objects.filter(author__icontains=query)  # ищем по части имени автора (без учёта регистра)
+
+    context = {
+        'query': query,
+        'results': results
+    }
+    return render(request, 'main/search.html', context)

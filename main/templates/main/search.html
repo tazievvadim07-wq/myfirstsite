@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1>Поиск книг по автору</h1>
+
+<form method="get" action="{% url 'search' %}">
+    <input type="text" name="q" placeholder="Введите имя автора" value="{{ query }}">
+    <button type="submit">Поиск</button>
+</form>
+
+{% if results %}
+    <h2>Результаты поиска:</h2>
+    <ul>
+        {% for book in results %}
+            <li>{{ book.title }} — {{ book.author }} ({{ book.year }}) — {{ book.price }} ₸</li>
+        {% endfor %}
+    </ul>
+{% elif query %}
+    <p>Ничего не найдено :(</p>
+{% endif %}
+{% endblock %}

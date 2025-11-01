@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 from .forms import BookForm
+from .models import Article
 
 def book_list(request):
     books = Book.objects.all()
@@ -33,4 +34,17 @@ def delete_book(request, id):
         book.delete()
         return redirect('book_list')
     return render(request, 'blog/book_confirm_delete.html', {'book': book})
+
+
+from django.shortcuts import render
+from .models import Article
+
+def articles_view(request):
+    articles = Article.objects.all()
+    total_count = articles.count()
+    context = {
+        'articles': articles,
+        'total_count': total_count
+    }
+    return render(request, 'blog/articles.html', context)
 

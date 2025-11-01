@@ -6,5 +6,6 @@ urlpatterns = [
     path('', include('main.urls')),  
     path('blog/', include('blog.urls')),
     path('search/', include('blog.urls')),
+    path('students/', include('students.urls')),  # Добавляем маршруты приложения students
 ]
 

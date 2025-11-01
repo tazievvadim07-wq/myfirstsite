@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Форма студента</title>
+    <style>
+        /* Простые стили, чтобы ошибки были аккуратно под полем */
+        .field {
+            margin-bottom: 1rem;
+        }
+        .field label {
+            display:block;
+            font-weight: 600;
+            margin-bottom: .25rem;
+        }
+        .errors {
+            color: #b00020;
+            margin-top: .25rem;
+            font-size: .9rem;
+        }
+        .nonfield-errors {
+            color:#b00020;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .success {
+            background: #e6ffed;
+            border: 1px solid #2e7d32;
+            padding: .5rem;
+            margin-bottom: 1rem;
+            color: #2e7d32;
+        }
+        input, textarea {
+            width: 100%;
+            padding: .5rem;
+            box-sizing: border-box;
+        }
+        button { padding: .5rem 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Регистрация студента</h1>
+
+    {% if success %}
+        <div class="success">✅ «Данные приняты!»</div>
+    {% endif %}
+
+    {# Вывод ошибок формы, не привязанных к полям (если есть) #}
+    {% if form.non_field_errors %}
+        <div class="nonfield-errors">
+            {% for err in form.non_field_errors %}
+                <div>{{ err }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="field">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="errors">
+                    {% for err in form.name.errors %}
+                        <div>{{ err }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            {{ form.age.label_tag }}
+            {{ form.age }}
+            {% if form.age.errors %}
+                <div class="errors">
+                    {% for err in form.age.errors %}
+                        <div>{{ err }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="errors">
+                    {% for err in form.email.errors %}
+                        <div>{{ err }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            {{ form.group.label_tag }}
+            {{ form.group }}
+            {% if form.group.errors %}
+                <div class="errors">
+                    {% for err in form.group.errors %}
+                        <div>{{ err }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
